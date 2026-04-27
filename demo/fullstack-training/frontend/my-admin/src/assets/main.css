@@ -1,0 +1,46 @@
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+/* Override Element Plus default styles */
+.el-menu {
+  border-right: none;
+}
+
+.el-header {
+  padding: 0;
+}
+
+.el-main {
+  padding: 20px;
+}
+
+.el-card {
+  margin-bottom: 20px;
+}
+
+.el-table {
+  margin-bottom: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .el-aside {
+    width: 60px;
+  }
+
+  .el-menu .el-menu-item {
+    padding: 0 12px;
+  }
+
+  .el-menu .el-menu-item span {
+    display: none;
+  }
+
+  .el-menu .el-menu-item i {
+    font-size: 18px;
+  }
+}
