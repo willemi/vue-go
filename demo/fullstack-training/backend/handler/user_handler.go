@@ -56,13 +56,19 @@ func GetUserList(c *gin.Context) {
 
 // CreateUser 处理创建新用户
 func CreateUser(c *gin.Context) {
-	var user model.User
-	if err := c.ShouldBindJSON(&user); err != nil {
+	var req model.CreateUserRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(400, model.ErrorResponse(400, "Invalid request"))
 		return
 	}
 
-	if err := service.CreateUser(&user); err != nil {
+	if req.Username == "" || req.Password == "" {
+		c.JSON(400, model.ErrorResponse(400, "Username and password are required"))
+		return
+	}
+
+	user, err := service.CreateUser(req)
+	if err != nil {
 		c.JSON(500, model.ErrorResponse(500, "Failed to create user"))
 		return
 	}
@@ -72,13 +78,19 @@ func CreateUser(c *gin.Context) {
 
 // UpdateUser 处理更新用户
 func UpdateUser(c *gin.Context) {
-	var user model.User
-	if err := c.ShouldBindJSON(&user); err != nil {
+	var req model.UpdateUserRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(400, model.ErrorResponse(400, "Invalid request"))
 		return
 	}
 
-	if err := service.UpdateUser(&user); err != nil {
+	if req.ID == 0 {
+		c.JSON(400, model.ErrorResponse(400, "User ID is required"))
+		return
+	}
+
+	user, err := service.UpdateUser(req)
+	if err != nil {
 		c.JSON(500, model.ErrorResponse(500, "Failed to update user"))
 		return
 	}

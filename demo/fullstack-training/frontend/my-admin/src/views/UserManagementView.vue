@@ -24,7 +24,11 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="created_at" label="创建时间" />
+      <el-table-column prop="created_at" label="创建时间">
+        <template #default="{ row }">
+          {{ formatTime(row.created_at) }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="180">
         <template #default="{ row }">
           <el-button type="primary" size="small" @click="openEditDialog(row)">编辑</el-button>
@@ -72,6 +76,18 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { getUserList, createUser, updateUser, deleteUser } from '../api/user'
+
+const formatTime = (time: string) => {
+  if (!time) return ''
+  const date = new Date(time)
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  const h = String(date.getHours()).padStart(2, '0')
+  const min = String(date.getMinutes()).padStart(2, '0')
+  const s = String(date.getSeconds()).padStart(2, '0')
+  return `${y}-${m}-${d} ${h}:${min}:${s}`
+}
 
 const users = ref<any[]>([])
 const total = ref(0)

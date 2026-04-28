@@ -15,9 +15,28 @@
       <el-table-column prop="title" label="菜单名称" />
       <el-table-column prop="path" label="路径" />
       <el-table-column prop="icon" label="图标" />
-      <el-table-column prop="parent_id" label="父级ID" width="100" />
+      <el-table-column label="父级" width="120">
+        <template #default="{ row }">
+          {{ getParentTitle(row.parent_id) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="sort" label="排序" width="80" />
-      <el-table-column prop="role" label="角色" width="120" />
+      <el-table-column label="角色" width="160">
+        <template #default="{ row }">
+          <template v-if="row.role">
+            <el-tag
+              v-for="r in row.role.split(',')"
+              :key="r"
+              :type="getRoleTagType(r.trim())"
+              size="small"
+              style="margin-right: 4px"
+            >
+              {{ getRoleLabel(r.trim()) }}
+            </el-tag>
+          </template>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
       <el-table-column label="隐藏" width="80">
         <template #default="{ row }">
           <el-tag :type="row.hidden ? 'danger' : 'success'">{{
@@ -46,17 +65,26 @@
       <el-form-item label="图标" prop="icon">
         <el-input v-model="form.icon" />
       </el-form-item>
-      <el-form-item label="父级ID" prop="parent_id">
-        <el-input-number v-model="form.parent_id" :min="0" />
+      <el-form-item label="父级菜单" prop="parent_id">
+        <el-select v-model="form.parent_id" placeholder="请选择父级菜单" clearable style="width: 100%">
+          <el-option label="无（顶级菜单）" :value="0" />
+          <el-option
+            v-for="menu in parentMenuOptions"
+            :key="menu.id"
+            :label="menu.title"
+            :value="menu.id"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="排序" prop="sort">
-        <el-input-number v-model="form.sort" :min="0" />
+        <el-select v-model="form.sort" placeholder="请选择排序" style="width: 100%">
+          <el-option v-for="n in 10" :key="n - 1" :label="String(n - 1)" :value="n - 1" />
+        </el-select>
       </el-form-item>
       <el-form-item label="角色" prop="role">
-        <el-select v-model="form.role">
+        <el-select v-model="formRoles" multiple placeholder="请选择角色" style="width: 100%">
           <el-option label="管理员" value="admin" />
           <el-option label="普通用户" value="user" />
-          <el-option label="所有用户" value="all" />
         </el-select>
       </el-form-item>
       <el-form-item label="隐藏" prop="hidden">
@@ -71,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { getMenuList, createMenu, updateMenu, deleteMenu } from '../api/user'
 
 const menus = ref<any[]>([])
@@ -81,18 +109,53 @@ const isEdit = ref(false)
 const formRef = ref()
 
 const form = ref({
+  id: 0,
   title: '',
   path: '',
   icon: '',
   parent_id: 0,
   sort: 0,
   hidden: false,
-  role: 'user'
+  role: ''
 })
+
+// 角色多选（数组形式，用于 el-select multiple）
+const formRoles = ref<string[]>([])
 
 const formRules = {
   title: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }],
   path: [{ required: true, message: '请输入路径', trigger: 'blur' }]
+}
+
+// 父级菜单选项：只取顶级菜单（parent_id === 0），排除自身
+const parentMenuOptions = computed(() => {
+  return menus.value.filter(m => m.parent_id === 0 && m.id !== form.value.id)
+})
+
+// 根据父级ID获取菜单名称
+const getParentTitle = (parentId: number) => {
+  if (!parentId) return '无（顶级）'
+  const parent = menus.value.find(m => m.id === parentId)
+  return parent ? parent.title : `ID: ${parentId}`
+}
+
+// 角色标签映射
+const getRoleLabel = (role: string) => {
+  const map: Record<string, string> = {
+    admin: '管理员',
+    user: '普通用户',
+    all: '所有用户'
+  }
+  return map[role] || role
+}
+
+const getRoleTagType = (role: string) => {
+  const map: Record<string, string> = {
+    admin: 'danger',
+    user: 'info',
+    all: 'success'
+  }
+  return map[role] || ''
 }
 
 const fetchMenus = async () => {
@@ -107,20 +170,24 @@ const fetchMenus = async () => {
 const openAddDialog = () => {
   isEdit.value = false
   form.value = {
+    id: 0,
     title: '',
     path: '',
     icon: '',
     parent_id: 0,
     sort: 0,
     hidden: false,
-    role: 'user'
+    role: ''
   }
+  formRoles.value = []
   dialogVisible.value = true
 }
 
 const openEditDialog = (row: any) => {
   isEdit.value = true
   form.value = { ...row }
+  // 将逗号分隔的 role 字符串转为数组
+  formRoles.value = row.role ? row.role.split(',').map((r: string) => r.trim()) : []
   dialogVisible.value = true
 }
 
@@ -131,6 +198,9 @@ const onSubmit = async () => {
   if (!valid) return
 
   try {
+    // 将角色数组转为逗号分隔字符串
+    form.value.role = formRoles.value.join(',')
+
     if (isEdit.value) {
       await updateMenu(form.value)
     } else {

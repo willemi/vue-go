@@ -35,6 +35,7 @@ func New() *gin.Engine {
 
 		// 菜单管理路由
 		auth.GET("/menu/list", handler.GetMenuList)
+		auth.GET("/menu/tree", handler.GetMenuTree)
 		auth.POST("/menu/add", handler.CreateMenu)
 		auth.PUT("/menu/edit", handler.UpdateMenu)
 		auth.DELETE("/menu/delete/:id", handler.DeleteMenu)

@@ -12,20 +12,28 @@
           router
           :unique-opened="true"
         >
-          <el-sub-menu v-for="item in menus" :key="item.path" :index="item.path">
-            <template #title>
+          <template v-for="item in menus" :key="item.path">
+            <!-- 没有子菜单的一级菜单 -->
+            <el-menu-item v-if="!item.children || item.children.length === 0" :index="item.path">
               <el-icon><component :is="item.icon" /></el-icon>
               <span>{{ item.title }}</span>
-            </template>
-            <el-menu-item
-              v-for="child in item.children"
-              :key="child.path"
-              :index="child.path"
-            >
-              <el-icon><component :is="child.icon" /></el-icon>
-              <span>{{ child.title }}</span>
             </el-menu-item>
-          </el-sub-menu>
+            <!-- 有子菜单的一级菜单 -->
+            <el-sub-menu v-else :index="item.path">
+              <template #title>
+                <el-icon><component :is="item.icon" /></el-icon>
+                <span>{{ item.title }}</span>
+              </template>
+              <el-menu-item
+                v-for="child in item.children"
+                :key="child.path"
+                :index="child.path"
+              >
+                <el-icon><component :is="child.icon" /></el-icon>
+                <span>{{ child.title }}</span>
+              </el-menu-item>
+            </el-sub-menu>
+          </template>
         </el-menu>
       </el-aside>
 
@@ -60,29 +68,43 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useUserStore } from '../stores/user'
-import { getMenuList } from '../api/user'
+import { getMenuTree } from '../api/user'
+
+interface MenuNode {
+  id: number
+  title: string
+  path: string
+  icon: string
+  parent_id: number
+  sort: number
+  hidden: boolean
+  role: string
+  children: MenuNode[]
+}
 
 const route = useRoute()
 const userStore = useUserStore()
 
 const activeMenu = computed(() => route.path)
-const menus = ref<any[]>([])
+const menus = ref<MenuNode[]>([])
 
-// 挂载时获取菜单列表
+// 挂载时获取菜单树
 const fetchMenus = async () => {
   try {
-    const response = await getMenuList()
+    const response = await getMenuTree()
     menus.value = response.data
   } catch (error) {
-    console.error('Failed to fetch menus:', error)
+    console.error('Failed to fetch menu tree:', error)
   }
 }
 
-fetchMenus()
+onMounted(() => {
+  fetchMenus()
+})
 
 const handleCommand = (command: string) => {
   if (command === 'logout') {

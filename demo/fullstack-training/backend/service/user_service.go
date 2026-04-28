@@ -46,25 +46,48 @@ func GetUserList(username string, page, pageSize int) ([]model.User, int64, erro
 }
 
 // CreateUser 创建新用户
-func CreateUser(user *model.User) error {
-	hashedPassword, err := utils.HashPassword(user.Password)
+func CreateUser(req model.CreateUserRequest) (*model.User, error) {
+	hashedPassword, err := utils.HashPassword(req.Password)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	user.Password = hashedPassword
-	return config.DB.Create(user).Error
+
+	user := &model.User{
+		Username: req.Username,
+		Password: hashedPassword,
+		Role:     req.Role,
+	}
+
+	if err := config.DB.Create(user).Error; err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
 // UpdateUser 更新用户
-func UpdateUser(user *model.User) error {
-	if user.Password != "" {
-		hashedPassword, err := utils.HashPassword(user.Password)
+func UpdateUser(req model.UpdateUserRequest) (*model.User, error) {
+	var user model.User
+	if err := config.DB.First(&user, req.ID).Error; err != nil {
+		return nil, err
+	}
+
+	// 更新字段
+	user.Username = req.Username
+	user.Role = req.Role
+	if req.Password != "" {
+		hashedPassword, err := utils.HashPassword(req.Password)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		user.Password = hashedPassword
 	}
-	return config.DB.Save(user).Error
+
+	if err := config.DB.Save(&user).Error; err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 // DeleteUser 软删除用户

@@ -7,11 +7,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetMenuList 处理获取菜单列表
+// GetMenuList 处理获取菜单列表（扁平结构，用于菜单管理页面）
 func GetMenuList(c *gin.Context) {
 	menus, err := service.GetMenuList()
 	if err != nil {
 		c.JSON(500, model.ErrorResponse(500, "Failed to get menu list"))
+		return
+	}
+
+	c.JSON(200, model.SuccessResponse(menus))
+}
+
+// GetMenuTree 处理获取当前用户的菜单树（用于侧边栏导航）
+func GetMenuTree(c *gin.Context) {
+	// 从 context 中获取用户角色（由 AuthMiddleware 设置）
+	role, _ := c.Get("role")
+
+	menus, err := service.GetMenuTreeByRole(role.(string))
+	if err != nil {
+		c.JSON(500, model.ErrorResponse(500, "Failed to get menu tree"))
 		return
 	}
 

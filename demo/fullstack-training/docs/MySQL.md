@@ -90,7 +90,12 @@ INSERT INTO users (username, password, role) VALUES
 
 -- 查询数据
 SELECT * FROM users;
-例子：mysql -u root -p352608ww -e "SELECT * FROM fullstack_db.users;"
+
+例子：
+- mysql -u root -p352608ww -e "SELECT * FROM fullstack_db.users;"
+- mysql -u root -p352608ww -e "USE fullstack_db; SELECT id, title, path, parent_id, sort, role FROM menus ORDER BY id;"
+mysql -u root -p352608ww -h localhost -P 3306 fullstack_db -e "SELECT id, username, role, password, created_at, updated_at FROM users;"
+
 SELECT id, username, role FROM users WHERE role = 'admin';
 SELECT * FROM users WHERE deleted_at IS NULL;
 

@@ -4,22 +4,16 @@
     <!-- <p>当前用户：{{ userStore.userInfo.username }} ({{ userStore.userInfo.role }})</p> -->
 
     <el-row :gutter="20" class="stats-row">
-      <el-col :span="8">
+      <el-col :span="12">
         <el-card class="stat-card">
           <h3>用户总数</h3>
           <p class="stat-value">128</p>
         </el-card>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="12">
         <el-card class="stat-card">
           <h3>菜单总数</h3>
           <p class="stat-value">24</p>
-        </el-card>
-      </el-col>
-      <el-col :span="8">
-        <el-card class="stat-card">
-          <h3>在线用户</h3>
-          <p class="stat-value">45</p>
         </el-card>
       </el-col>
     </el-row>
