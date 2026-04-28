@@ -50,8 +50,9 @@
   }
 }
 
-body {
+html,body,* {
   margin: 0;
+  padding: 0
 }
 
 h1,
@@ -63,6 +64,7 @@ h2 {
 
 h1 {
   font-size: 56px;
+  line-height: 56px;
   letter-spacing: -1.68px;
   margin: 32px 0;
   @media (max-width: 1024px) {
@@ -72,11 +74,12 @@ h1 {
 }
 h2 {
   font-size: 24px;
-  line-height: 118%;
+  line-height: 24px;
   letter-spacing: -0.24px;
   margin: 0 0 8px;
   @media (max-width: 1024px) {
     font-size: 20px;
+    line-height: 20px;
   }
 }
 p {
@@ -157,8 +160,9 @@ code {
 }
 
 #app {
-  width: 1126px;
+  width: 100%;
   max-width: 100%;
+  min-width: 1000px;
   margin: 0 auto;
   text-align: center;
   border-inline: 1px solid var(--border);

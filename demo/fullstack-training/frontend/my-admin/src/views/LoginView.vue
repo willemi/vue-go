@@ -60,7 +60,7 @@ const loading = ref(false)
 
 const onSubmit = async () => {
   if (!formRef.value) return
-debugger
+
   const valid = await formRef.value.validate()
   if (!valid) return
 

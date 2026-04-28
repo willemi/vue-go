@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <el-container>
+    <el-container style="height:100%">
       <!-- 侧边栏 -->
       <el-aside width="200px" class="sidebar">
         <el-menu
@@ -63,6 +63,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { ArrowDown } from '@element-plus/icons-vue'
 import { useUserStore } from '../stores/user'
 import { getMenuList } from '../api/user'
 
@@ -113,9 +114,13 @@ const handleCommand = (command: string) => {
   height: 100%;
   padding: 0 20px;
 }
+.el-main>div{
+  height:100%;
+  box-sizing: border-box;
+}
 
 .header-content h1 {
-  margin: 0;
+  margin:0;
   color: #333;
 }
 
