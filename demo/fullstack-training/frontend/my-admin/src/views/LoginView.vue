@@ -67,7 +67,7 @@ const onSubmit = async () => {
   loading.value = true
   try {
     const response = await login(form.username, form.password)
-    const { token, user } = response.data.data
+    const { token, user } = response.data
 
     userStore.setToken(token)
     userStore.setUserInfo(user)

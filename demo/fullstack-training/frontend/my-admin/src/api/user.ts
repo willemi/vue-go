@@ -23,7 +23,7 @@ api.interceptors.request.use(
 // 响应拦截器
 api.interceptors.response.use(
   response => {
-    return response
+    return response.data
   },
   error => {
     if (error.response?.status === 401) {
@@ -31,7 +31,7 @@ api.interceptors.response.use(
       userStore.logout()
       window.location.href = '/login'
     }
-    return Promise.reject(error)
+    return Promise.reject(error.response?.data ?? error)
   }
 )
 

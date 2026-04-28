@@ -102,7 +102,7 @@ const fetchUsers = async () => {
       page: currentPage.value,
       page_size: pageSize.value
     })
-    const { users: list, total: count } = response.data.data
+    const { users: list, total: count } = response.data
     users.value = list
     total.value = count
   } catch (error) {
@@ -156,6 +156,11 @@ onMounted(fetchUsers)
 <style scoped>
 .user-management {
   padding: 20px;
+}
+
+.user-management h2 {
+  text-align: left;
+  margin-bottom:20px
 }
 
 .search-form {

@@ -1,71 +1,75 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { useUserStore } from '../stores/user'
+import { createRouter, createWebHistory } from "vue-router";
+import { useUserStore } from "../stores/user";
 
 const routes = [
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('../views/LoginView.vue'),
-    meta: { requiresAuth: false }
+    path: "/login",
+    name: "Login",
+    component: () => import("../views/LoginView.vue"),
+    meta: { requiresAuth: false },
   },
   {
-    path: '/',
-    name: 'Layout',
-    component: () => import('../layout/Layout.vue'),
-    redirect: '/dashboard',
+    path: "/",
+    name: "Layout",
+    component: () => import("../layout/Layout.vue"),
+    redirect: "/dashboard",
     children: [
       {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: () => import('../views/DashboardView.vue'),
-        meta: { requiresAuth: true, title: 'Dashboard' }
+        path: "/dashboard",
+        name: "Dashboard",
+        component: () => import("../views/DashboardView.vue"),
+        meta: { requiresAuth: true, title: "Dashboard" },
       },
       {
-        path: '/user',
-        name: 'UserManagement',
-        component: () => import('../views/UserManagementView.vue'),
-        meta: { requiresAuth: true, title: '用户管理', role: ['admin', 'user'] }
+        path: "/user",
+        name: "UserManagement",
+        component: () => import("../views/UserManagementView.vue"),
+        meta: {
+          requiresAuth: true,
+          title: "用户管理",
+          role: ["admin", "user"],
+        },
       },
       {
-        path: '/menu',
-        name: 'MenuManagement',
-        component: () => import('../views/MenuManagementView.vue'),
-        meta: { requiresAuth: true, title: '菜单管理', role: ['admin'] }
-      }
-    ]
+        path: "/menu",
+        name: "MenuManagement",
+        component: () => import("../views/MenuManagementView.vue"),
+        meta: { requiresAuth: true, title: "菜单管理", role: ["admin"] },
+      },
+    ],
   },
   {
-    path: '/:pathMatch(.*)*',
-    name: 'NotFound',
-    component: () => import('../views/NotFoundView.vue'),
-    meta: { requiresAuth: false }
-  }
-]
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: () => import("../views/NotFoundView.vue"),
+    meta: { requiresAuth: false },
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
-})
+  routes,
+});
 
 // 路由守卫
 router.beforeEach((to, from) => {
-  const userStore = useUserStore()
-  const token = localStorage.getItem('token')
+  const userStore = useUserStore();
+  const token = localStorage.getItem("token");
 
   if (to.meta.requiresAuth) {
     if (!token) {
-      return '/login'
+      return "/login";
     }
     // 检查角色权限
-    if (to.meta.role && !to.meta.role.includes(userStore.role)) {
-      return '/dashboard'
+    if (to.meta.role && !to.meta.role.includes(userStore.userInfo.role)) {
+      return "/dashboard";
     }
-    return true
+    return true;
   }
-  if (token && to.path === '/login') {
-    return '/dashboard'
+  if (token && to.path === "/login") {
+    return "/dashboard";
   }
-  return true
-})
+  return true;
+});
 
-export default router
+export default router;

@@ -34,7 +34,6 @@
         <!-- 顶部导航 -->
         <el-header height="60px" class="header">
           <div class="header-content">
-            <h1>后台管理系统</h1>
             <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
                 {{ userStore.userInfo.username }}
@@ -77,7 +76,7 @@ const menus = ref<any[]>([])
 const fetchMenus = async () => {
   try {
     const response = await getMenuList()
-    menus.value = response.data.data
+    menus.value = response.data
   } catch (error) {
     console.error('Failed to fetch menus:', error)
   }
@@ -109,7 +108,7 @@ const handleCommand = (command: string) => {
 
 .header-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   height: 100%;
   padding: 0 20px;

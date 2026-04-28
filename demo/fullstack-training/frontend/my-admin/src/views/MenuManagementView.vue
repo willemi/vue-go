@@ -98,7 +98,7 @@ const formRules = {
 const fetchMenus = async () => {
   try {
     const response = await getMenuList()
-    menus.value = response.data.data
+    menus.value = response.data
   } catch (error) {
     console.error('Failed to fetch menus:', error)
   }
@@ -160,7 +160,13 @@ onMounted(fetchMenus)
   padding: 20px;
 }
 
+
+.menu-management h2 {
+  text-align: left;
+  margin-bottom:20px
+}
 .search-form {
   margin-bottom: 20px;
+  text-align: right;
 }
 </style>

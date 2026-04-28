@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <h1>欢迎来到后台管理系统</h1>
-    <p>当前用户：{{ userStore.userInfo.username }} ({{ userStore.userInfo.role }})</p>
+    <!-- <p>当前用户：{{ userStore.userInfo.username }} ({{ userStore.userInfo.role }})</p> -->
 
     <el-row :gutter="20" class="stats-row">
       <el-col :span="8">
