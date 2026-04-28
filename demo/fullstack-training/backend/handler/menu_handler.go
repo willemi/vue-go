@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetMenuList handles getting menu list
+// GetMenuList 处理获取菜单列表
 func GetMenuList(c *gin.Context) {
 	menus, err := service.GetMenuList()
 	if err != nil {
@@ -18,7 +18,7 @@ func GetMenuList(c *gin.Context) {
 	c.JSON(200, model.SuccessResponse(menus))
 }
 
-// CreateMenu handles creating a new menu
+// CreateMenu 处理创建新菜单
 func CreateMenu(c *gin.Context) {
 	var menu model.Menu
 	if err := c.ShouldBindJSON(&menu); err != nil {
@@ -34,7 +34,7 @@ func CreateMenu(c *gin.Context) {
 	c.JSON(201, model.SuccessResponse(menu))
 }
 
-// UpdateMenu handles updating a menu
+// UpdateMenu 处理更新菜单
 func UpdateMenu(c *gin.Context) {
 	var menu model.Menu
 	if err := c.ShouldBindJSON(&menu); err != nil {
@@ -50,7 +50,7 @@ func UpdateMenu(c *gin.Context) {
 	c.JSON(200, model.SuccessResponse(menu))
 }
 
-// DeleteMenu handles deleting a menu
+// DeleteMenu 处理删除菜单
 func DeleteMenu(c *gin.Context) {
 	id := c.Param("id")
 	if err := service.DeleteMenu(id); err != nil {

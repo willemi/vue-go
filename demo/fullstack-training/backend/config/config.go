@@ -12,7 +12,7 @@ var (
 )
 
 func Init() {
-	// Load environment variables
+	// 加载环境变量
 	Port = getEnv("PORT", "8080")
 }
 

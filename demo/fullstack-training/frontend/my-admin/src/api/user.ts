@@ -6,7 +6,7 @@ const api = axios.create({
   timeout: 10000
 })
 
-// Request interceptor
+// 请求拦截器
 api.interceptors.request.use(
   config => {
     const userStore = useUserStore()
@@ -20,7 +20,7 @@ api.interceptors.request.use(
   }
 )
 
-// Response interceptor
+// 响应拦截器
 api.interceptors.response.use(
   response => {
     return response
@@ -35,7 +35,7 @@ api.interceptors.response.use(
   }
 )
 
-// User API
+// 用户 API
 export const login = (username: string, password: string) => {
   return api.post('/user/login', { username, password })
 }
@@ -56,7 +56,7 @@ export const deleteUser = (id: number) => {
   return api.delete(`/user/delete/${id}`)
 }
 
-// Menu API
+// 菜单 API
 export const getMenuList = () => {
   return api.get('/menu/list')
 }

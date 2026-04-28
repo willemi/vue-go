@@ -16,7 +16,7 @@ type Claims struct {
 
 var jwtSecret = []byte("fullstack-secret-key-2024")
 
-// GenerateToken generates a JWT token
+// GenerateToken 生成 JWT 令牌
 func GenerateToken(userID uint, username, role string) (string, error) {
 	claims := Claims{
 		UserID:   userID,
@@ -33,7 +33,7 @@ func GenerateToken(userID uint, username, role string) (string, error) {
 	return token.SignedString(jwtSecret)
 }
 
-// ParseToken parses and validates a JWT token
+// ParseToken 解析并验证 JWT 令牌
 func ParseToken(tokenString string) (*Claims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtSecret, nil

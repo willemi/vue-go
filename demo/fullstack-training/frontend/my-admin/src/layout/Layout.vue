@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <el-container>
-      <!-- Sidebar -->
+      <!-- 侧边栏 -->
       <el-aside width="200px" class="sidebar">
         <el-menu
           :default-active="activeMenu"
@@ -29,9 +29,9 @@
         </el-menu>
       </el-aside>
 
-      <!-- Main content -->
+      <!-- 主内容区 -->
       <el-container>
-        <!-- Header -->
+        <!-- 顶部导航 -->
         <el-header height="60px" class="header">
           <div class="header-content">
             <h1>后台管理系统</h1>
@@ -51,7 +51,7 @@
           </div>
         </el-header>
 
-        <!-- Content -->
+        <!-- 内容区 -->
         <el-main>
           <router-view />
         </el-main>
@@ -72,7 +72,7 @@ const userStore = useUserStore()
 const activeMenu = computed(() => route.path)
 const menus = ref<any[]>([])
 
-// Fetch menu list on mount
+// 挂载时获取菜单列表
 const fetchMenus = async () => {
   try {
     const response = await getMenuList()

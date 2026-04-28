@@ -47,7 +47,7 @@ const router = createRouter({
   routes
 })
 
-// Router guard
+// 路由守卫
 router.beforeEach((to, from) => {
   const userStore = useUserStore()
   const token = localStorage.getItem('token')
@@ -56,7 +56,7 @@ router.beforeEach((to, from) => {
     if (!token) {
       return '/login'
     }
-    // Check role permissions
+    // 检查角色权限
     if (to.meta.role && !to.meta.role.includes(userStore.role)) {
       return '/dashboard'
     }

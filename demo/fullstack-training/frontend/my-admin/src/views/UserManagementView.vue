@@ -2,7 +2,7 @@
   <div class="user-management">
     <h2>用户管理</h2>
 
-    <!-- Search -->
+    <!-- 搜索 -->
     <el-form inline class="search-form">
       <el-form-item label="用户名">
         <el-input v-model="searchUsername" clearable placeholder="请输入用户名" />
@@ -13,7 +13,7 @@
       </el-form-item>
     </el-form>
 
-    <!-- Table -->
+    <!-- 用户表格 -->
     <el-table :data="users" border style="width: 100%">
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="username" label="用户名" />
@@ -33,7 +33,7 @@
       </el-table-column>
     </el-table>
 
-    <!-- Pagination -->
+    <!-- 分页 -->
     <el-pagination
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
@@ -45,7 +45,7 @@
       @size-change="fetchUsers"
     />
 
-    <!-- Add/Edit Dialog -->
+    <!-- 新增/编辑对话框 -->
     <el-dialog v-model="dialogVisible" :title="isEdit ? '编辑用户' : '新增用户'" width="400px">
       <el-form :model="form" :rules="formRules" ref="formRef" label-width="80px">
         <el-form-item label="用户名" prop="username">

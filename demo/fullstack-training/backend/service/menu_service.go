@@ -5,7 +5,7 @@ import (
 	"fullstack-backend/model"
 )
 
-// GetMenuList returns all menus
+// GetMenuList 返回所有菜单
 func GetMenuList() ([]model.Menu, error) {
 	var menus []model.Menu
 	if err := config.DB.Order("sort ASC").Find(&menus).Error; err != nil {
@@ -14,17 +14,17 @@ func GetMenuList() ([]model.Menu, error) {
 	return menus, nil
 }
 
-// CreateMenu creates a new menu
+// CreateMenu 创建新菜单
 func CreateMenu(menu *model.Menu) error {
 	return config.DB.Create(menu).Error
 }
 
-// UpdateMenu updates a menu
+// UpdateMenu 更新菜单
 func UpdateMenu(menu *model.Menu) error {
 	return config.DB.Save(menu).Error
 }
 
-// DeleteMenu soft-deletes a menu
+// DeleteMenu 软删除菜单
 func DeleteMenu(id string) error {
 	return config.DB.Where("id = ?", id).Delete(&model.Menu{}).Error
 }

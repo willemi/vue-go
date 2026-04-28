@@ -75,7 +75,7 @@ debugger
     router.push('/dashboard')
   } catch (error) {
     console.error('Login failed:', error)
-    // Handle error
+    // 处理错误
   } finally {
     loading.value = false
   }

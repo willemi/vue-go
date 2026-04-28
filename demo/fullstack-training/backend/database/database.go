@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// InitDB initializes the database connection
+// InitDB 初始化数据库连接
 func InitDB() error {
 	dsn := "root:352608ww@tcp(localhost:3306)/fullstack_db?charset=utf8mb4&parseTime=True&loc=Local"
 	var err error
@@ -17,7 +17,7 @@ func InitDB() error {
 		return err
 	}
 
-	// Auto migrate the schema
+	// 自动迁移数据库结构
 	config.DB.AutoMigrate(&model.User{}, &model.Menu{})
 
 	return nil

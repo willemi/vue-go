@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Login handles user login
+// Login 处理用户登录
 func Login(c *gin.Context) {
 	var req model.LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -27,7 +27,7 @@ func Login(c *gin.Context) {
 	}))
 }
 
-// GetUserList handles getting user list
+// GetUserList 处理获取用户列表
 func GetUserList(c *gin.Context) {
 	var req model.UserListRequest
 	if err := c.ShouldBindQuery(&req); err != nil {
@@ -54,7 +54,7 @@ func GetUserList(c *gin.Context) {
 	}))
 }
 
-// CreateUser handles creating a new user
+// CreateUser 处理创建新用户
 func CreateUser(c *gin.Context) {
 	var user model.User
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -70,7 +70,7 @@ func CreateUser(c *gin.Context) {
 	c.JSON(201, model.SuccessResponse(user))
 }
 
-// UpdateUser handles updating a user
+// UpdateUser 处理更新用户
 func UpdateUser(c *gin.Context) {
 	var user model.User
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -86,7 +86,7 @@ func UpdateUser(c *gin.Context) {
 	c.JSON(200, model.SuccessResponse(user))
 }
 
-// DeleteUser handles deleting a user
+// DeleteUser 处理删除用户
 func DeleteUser(c *gin.Context) {
 	id := c.Param("id")
 	if err := service.DeleteUser(id); err != nil {

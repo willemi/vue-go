@@ -2,14 +2,14 @@
   <div class="menu-management">
     <h2>菜单管理</h2>
 
-    <!-- Search -->
+    <!-- 搜索 -->
     <el-form inline class="search-form">
       <el-form-item>
         <el-button type="success" @click="openAddDialog">新增菜单</el-button>
       </el-form-item>
     </el-form>
 
-    <!-- Tree Table -->
+    <!-- 菜单表格 -->
     <el-table :data="menus" border style="width: 100%">
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="title" label="菜单名称" />
@@ -34,7 +34,7 @@
     </el-table>
   </div>
 
-  <!-- Add/Edit Dialog -->
+  <!-- 新增/编辑对话框 -->
   <el-dialog v-model="dialogVisible" :title="isEdit ? '编辑菜单' : '新增菜单'" width="400px">
     <el-form :model="form" :rules="formRules" ref="formRef" label-width="100px">
       <el-form-item label="菜单名称" prop="title">

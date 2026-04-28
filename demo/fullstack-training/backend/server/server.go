@@ -8,39 +8,39 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// New creates a new Gin server with all routes configured
+// New 创建并配置所有路由的 Gin 服务器
 func New() *gin.Engine {
-	// Initialize database
+	// 初始化数据库
 	if err := database.InitDB(); err != nil {
 		panic("Failed to connect to database: " + err.Error())
 	}
 
 	r := gin.Default()
 
-	// Apply CORS middleware
+	// 应用 CORS 中间件
 	r.Use(middleware.CORSMiddleware())
 
-	// Public routes (no auth required)
+	// 公开路由（无需认证）
 	r.POST("/api/user/login", handler.Login)
 
-	// Protected routes (auth required)
+	// 受保护路由（需要认证）
 	auth := r.Group("/api")
 	auth.Use(middleware.AuthMiddleware())
 	{
-		// User management routes
+		// 用户管理路由
 		auth.GET("/user/list", handler.GetUserList)
 		auth.POST("/user/add", handler.CreateUser)
 		auth.PUT("/user/edit", handler.UpdateUser)
 		auth.DELETE("/user/delete/:id", handler.DeleteUser)
 
-		// Menu management routes
+		// 菜单管理路由
 		auth.GET("/menu/list", handler.GetMenuList)
 		auth.POST("/menu/add", handler.CreateMenu)
 		auth.PUT("/menu/edit", handler.UpdateMenu)
 		auth.DELETE("/menu/delete/:id", handler.DeleteMenu)
 	}
 
-	// Admin-only routes
+	// 仅管理员路由
 	admin := r.Group("/api")
 	admin.Use(middleware.AuthMiddleware(), middleware.AdminMiddleware())
 	{

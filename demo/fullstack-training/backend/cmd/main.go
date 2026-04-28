@@ -6,12 +6,12 @@ import (
 )
 
 func main() {
-	// Initialize configuration
+	// 初始化配置
 	config.Init()
 
-	// Initialize server
+	// 初始化服务器
 	r := server.New()
 
-	// Start server
+	// 启动服务器
 	r.Run(":8080")
 }
