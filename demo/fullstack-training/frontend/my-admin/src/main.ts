@@ -4,6 +4,7 @@ import router from "./router";
 import { createPinia } from "pinia";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "./style.css";
 
 const app = createApp(App);
@@ -11,5 +12,10 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 app.use(ElementPlus);
+
+// 全局注册所有 Element Plus 图标组件，使 <component :is="iconName" /> 可以通过字符串名称动态渲染
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component);
+}
 
 app.mount("#app");
