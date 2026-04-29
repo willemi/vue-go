@@ -6,8 +6,9 @@
 
 ### SHOW TABLES; 是 MySQL 内部命令，不是 shell 命令。你需要先进入 MySQL 再执行：
 
-- 进入数据
+- 进入数据库
 
+**Windows PowerShell / macOS / Linux:**
 ```bash
 mysql -u root -p
 ```
@@ -21,6 +22,7 @@ SHOW TABLES;
 
 ### 或者一行命令完成（不进入交互式界面）：
 
+**Windows PowerShell / macOS / Linux:**
 ```bash
 mysql -u root -p -e "USE fullstack_db; SHOW TABLES;"
 ```
@@ -29,6 +31,7 @@ mysql -u root -p -e "USE fullstack_db; SHOW TABLES;"
 
 ## 连接数据库
 
+**Windows PowerShell / macOS / Linux:**
 ```bash
 mysql -u root -p
 mysql -u root -p -h 127.0.0.1 -P 3306
@@ -193,6 +196,25 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE role = 'admin';
 
 ## 导入导出
 
+**Windows PowerShell:**
+```powershell
+# 导出整个数据库
+mysqldump -u root -p fullstack_db > fullstack_db.sql
+
+# 导出指定表
+mysqldump -u root -p fullstack_db users > users_table.sql
+
+# 导出所有数据库
+mysqldump -u root -p --all-databases > all_db.sql
+
+# 导入
+mysql -u root -p fullstack_db < fullstack_db.sql
+
+# 导出数据（纯数据，无表结构）
+mysqldump -u root -p --no-create-info fullstack_db users > users_data.sql
+```
+
+**macOS / Linux:**
 ```bash
 # 导出整个数据库
 mysqldump -u root -p fullstack_db > fullstack_db.sql

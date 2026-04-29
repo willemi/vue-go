@@ -1,5 +1,5 @@
 // Package main 提供密码哈希生成工具
-// 用于在命令行中手动生成任意密码的 bcrypt 哈希值
+// 用于在命令行中手动生成任意密码的 bcrypt 哈希值，验证密码是否正确。
 // 使用方式: go run cmd/password.go
 package main
 

@@ -28,9 +28,17 @@ npm run build               # Type-check + production build
 ```
 
 ### Database
+
+**Windows (PowerShell):**
+```powershell
+mysql -u root -p -e "CREATE DATABASE fullstack_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+```
+
+**macOS / Linux / Git Bash / WSL:**
 ```bash
 mysql -u root -p -e "CREATE DATABASE fullstack_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 ```
+
 GORM auto-migrates tables on startup. Default admin user created via `cmd/init_admin.go`.
 
 ## Architecture
