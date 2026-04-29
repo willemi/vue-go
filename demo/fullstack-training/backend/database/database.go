@@ -13,12 +13,13 @@ import (
 
 // InitDB 初始化数据库连接
 // DSN（Data Source Name）包含数据库连接信息：
-//   root:352608ww      - MySQL 用户名和密码
-//   localhost:3306     - 数据库地址和端口
-//   fullstack_db       - 数据库名称
-//   utf8mb4            - 支持完整 Unicode（包括 emoji）
-//   parseTime=True     - 自动将 MySQL 的 datetime 解析为 Go 的 time.Time
-//   loc=Local          - 使用本地时区
+//
+//	root:******      - MySQL 用户名和密码
+//	localhost:3306     - 数据库地址和端口
+//	fullstack_db       - 数据库名称
+//	utf8mb4            - 支持完整 Unicode（包括 emoji）
+//	parseTime=True     - 自动将 MySQL 的 datetime 解析为 Go 的 time.Time
+//	loc=Local          - 使用本地时区
 func InitDB() error {
 	dsn := "root:352608ww@tcp(localhost:3306)/fullstack_db?charset=utf8mb4&parseTime=True&loc=Local"
 	var err error
