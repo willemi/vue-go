@@ -19,9 +19,11 @@
       <el-table-column prop="path" label="路径" />
       <el-table-column prop="icon" label="图标" />
       <!-- 父级列：根据 parent_id 查找对应的菜单名称 -->
-      <el-table-column label="父级" width="120">
+      <el-table-column label="父级" width="140">
         <template #default="{ row }">
-          {{ getParentTitle(row.parent_id) }}
+          <el-tag :type="row.parent_id === 0 ? 'success' : 'warning'" size="small">
+            {{ getParentTitle(row.parent_id) }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="sort" label="排序" width="80" />
@@ -147,7 +149,7 @@ const parentMenuOptions = computed(() => {
 
 // getParentTitle 根据 parent_id 返回父级菜单名称
 const getParentTitle = (parentId: number) => {
-  if (!parentId) return '无（顶级）'
+  if (!parentId) return '无'
   const parent = menus.value.find(m => m.id === parentId)
   return parent ? parent.title : `ID: ${parentId}`
 }

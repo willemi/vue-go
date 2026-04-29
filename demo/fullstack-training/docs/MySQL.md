@@ -1,25 +1,31 @@
 # MySQL 操作指南
 
-## 执行逻辑
+---
 
-- SHOW TABLES; 是 MySQL 内部命令，不是 shell 命令。你需要先进入 MySQL 再执行：
+## 操作数据库的两种方法
+
+### SHOW TABLES; 是 MySQL 内部命令，不是 shell 命令。你需要先进入 MySQL 再执行：
+
+- 进入数据
 
 ```bash
 mysql -u root -p
 ```
 
-输入密码进入 MySQL shell 后，再执行：
+- 输入密码进入 MySQL shell 后，切换数据库：
 
 ```bash
 USE fullstack_db;
 SHOW TABLES;
 ```
 
-或者一行命令完成（不进入交互式界面）：
+### 或者一行命令完成（不进入交互式界面）：
 
 ```bash
 mysql -u root -p -e "USE fullstack_db; SHOW TABLES;"
 ```
+
+---
 
 ## 连接数据库
 

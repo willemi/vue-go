@@ -1,6 +1,7 @@
 // Layout.vue 应用主布局
 // 包含左侧导航栏（el-menu）和顶部导航区（el-header）
 // 侧边栏菜单根据用户角色动态从后端获取
+// icon https://element-plus.org/zh-CN/component/icon
 <template>
   <div class="layout">
     <el-container style="height:100%">
