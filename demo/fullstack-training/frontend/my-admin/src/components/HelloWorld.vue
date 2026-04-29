@@ -1,3 +1,5 @@
+// HelloWorld.vue 是 Vite 初始化项目时生成的示例组件
+// 作为开发参考用，项目实际页面在 views/ 和 layout/ 目录中
 <script setup lang="ts">
 import { ref } from 'vue'
 import viteLogo from '../assets/vite.svg'

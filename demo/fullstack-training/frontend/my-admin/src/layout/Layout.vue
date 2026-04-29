@@ -1,3 +1,6 @@
+// Layout.vue 应用主布局
+// 包含左侧导航栏（el-menu）和顶部导航区（el-header）
+// 侧边栏菜单根据用户角色动态从后端获取
 <template>
   <div class="layout">
     <el-container style="height:100%">
@@ -12,18 +15,20 @@
           router
           :unique-opened="true"
         >
+          <!-- 遍历后端返回的菜单树 -->
           <template v-for="item in menus" :key="item.path">
-            <!-- 没有子菜单的一级菜单 -->
+            <!-- 没有子菜单的一级菜单：直接渲染为 el-menu-item -->
             <el-menu-item v-if="!item.children || item.children.length === 0" :index="item.path">
               <el-icon><component :is="item.icon" /></el-icon>
               <span>{{ item.title }}</span>
             </el-menu-item>
-            <!-- 有子菜单的一级菜单 -->
+            <!-- 有子菜单的一级菜单：渲染为 el-sub-menu -->
             <el-sub-menu v-else :index="item.path">
               <template #title>
                 <el-icon><component :is="item.icon" /></el-icon>
                 <span>{{ item.title }}</span>
               </template>
+              <!-- 二级菜单项 -->
               <el-menu-item
                 v-for="child in item.children"
                 :key="child.path"
@@ -42,6 +47,7 @@
         <!-- 顶部导航 -->
         <el-header height="60px" class="header">
           <div class="header-content">
+            <!-- 用户下拉菜单 -->
             <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
                 {{ userStore.userInfo.username }}
@@ -58,7 +64,7 @@
           </div>
         </el-header>
 
-        <!-- 内容区 -->
+        <!-- 内容区：路由视图，实际页面内容在这里渲染 -->
         <el-main>
           <router-view />
         </el-main>
@@ -74,6 +80,7 @@ import { ArrowDown } from '@element-plus/icons-vue'
 import { useUserStore } from '../stores/user'
 import { getMenuTree } from '../api/user'
 
+// MenuNode 菜单树节点结构（与后端 MenuNode 对应）
 interface MenuNode {
   id: number
   title: string
@@ -89,10 +96,13 @@ interface MenuNode {
 const route = useRoute()
 const userStore = useUserStore()
 
+// activeMenu 计算当前激活的菜单项，根据路由路径自动高亮
 const activeMenu = computed(() => route.path)
+
+// menus 存储从后端获取的菜单树
 const menus = ref<MenuNode[]>([])
 
-// 挂载时获取菜单树
+// 挂载时获取菜单树（根据当前用户角色过滤）
 const fetchMenus = async () => {
   try {
     const response = await getMenuTree()
@@ -106,6 +116,7 @@ onMounted(() => {
   fetchMenus()
 })
 
+// 处理下拉菜单命令
 const handleCommand = (command: string) => {
   if (command === 'logout') {
     userStore.logout()

@@ -1,3 +1,5 @@
+// Package middleware 提供 Gin HTTP 中间件
+// 中间件是请求处理链中的拦截器，用于在调用 handler 之前执行认证、权限检查等逻辑
 package middleware
 
 import (
@@ -9,7 +11,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AuthMiddleware 验证 JWT 令牌
+// AuthMiddleware JWT 认证中间件
+// 检查请求头中是否包含有效的 Authorization: Bearer <token>
+// 验证通过后，将用户信息（user_id、username、role）存入 Gin Context
+// 后续 handler 可通过 c.Get("xxx") 获取这些信息
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString := c.GetHeader("Authorization")
@@ -19,7 +24,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// 移除 "Bearer " 前缀
+		// 移除 "Bearer " 前缀（不区分大小写），保留 token 本身
 		if strings.HasPrefix(tokenString, "Bearer ") {
 			tokenString = strings.TrimPrefix(tokenString, "Bearer ")
 		}
@@ -31,16 +36,19 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// 将用户信息存入 context
+		// 将解析出的用户信息存入 Context，供后续 handler 使用
 		c.Set("user_id", claims.UserID)
 		c.Set("username", claims.Username)
 		c.Set("role", claims.Role)
 
+		// 调用 c.Next() 继续执行后续中间件和 handler
 		c.Next()
 	}
 }
 
-// AdminMiddleware 检查用户是否具有管理员角色
+// AdminMiddleware 管理员权限检查中间件
+// 应在 AuthMiddleware 之后使用，因为依赖 AuthMiddleware 设置的 role 值
+// 仅当 role 为 "admin" 时允许通过，否则返回 403 Forbidden
 func AdminMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		role, exists := c.Get("role")

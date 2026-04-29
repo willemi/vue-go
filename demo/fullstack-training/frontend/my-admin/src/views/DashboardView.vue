@@ -1,12 +1,15 @@
+// DashboardView.vue 仪表盘页面
+// 展示系统概览数据（当前为静态数据，可扩展为从后端获取实时统计）
 <template>
   <div class="dashboard">
     <h1>欢迎来到后台管理系统</h1>
-    <!-- <p>当前用户：{{ userStore.userInfo.username }} ({{ userStore.userInfo.role }})</p> -->
 
+    <!-- 统计卡片：使用 el-row 和 el-col 实现响应式布局 -->
     <el-row :gutter="20" class="stats-row">
       <el-col :span="12">
         <el-card class="stat-card">
           <h3>用户总数</h3>
+          <!-- TODO: 从后端 API 获取真实数据 -->
           <p class="stat-value">128</p>
         </el-card>
       </el-col>

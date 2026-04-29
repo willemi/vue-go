@@ -1,3 +1,5 @@
+// NotFoundView.vue 404 页面
+// 当用户访问不存在的路由时显示，提供返回首页的按钮
 <template>
   <div class="not-found">
     <h1>404</h1>
