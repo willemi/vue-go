@@ -101,9 +101,9 @@ INSERT INTO users (username, password, role) VALUES
 SELECT * FROM users;
 
 例子：
-- mysql -u root -p用户密码 -e "SELECT * FROM fullstack_db.users;"
-- mysql -u root -p用户密码 -e "USE fullstack_db; SELECT id, title, path, parent_id, sort, role FROM menus ORDER BY id;"
-mysql -u root -p用户密码 -h localhost -P 3306 fullstack_db -e "SELECT id, username, role, password, created_at, updated_at FROM users;"
+- mysql -u root -p -e "SELECT * FROM fullstack_db.users;"
+- mysql -u root -p -e "USE fullstack_db; SELECT id, title, path, parent_id, sort, role FROM menus ORDER BY id;"
+mysql -u root -p -h localhost -P 3306 fullstack_db -e "SELECT id, username, role, password, created_at, updated_at FROM users;"
 
 SELECT id, username, role FROM users WHERE role = 'admin';
 SELECT * FROM users WHERE deleted_at IS NULL;
@@ -115,7 +115,7 @@ UPDATE users SET role = 'admin' WHERE username = 'test';
 DELETE FROM users WHERE id = 1;
 
 例子：
-mysql -u root -p用户密码 -e "DELETE FROM fullstack_db.users WHERE username='admin';"
+mysql -u root -p -e "DELETE FROM fullstack_db.users WHERE username='admin';"
 
 -- 软删除（配合 GORM 使用）
 UPDATE users SET deleted_at = NOW() WHERE id = 1;
